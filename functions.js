@@ -1,56 +1,38 @@
 import { json } from 'express'
-import {User} from './model.js'
+import {Player,Weapon,Wear} from './model.js'
 // функции обращении к бд
-async function reduceAttribute(idUser,attribute,count){
-   const res = await User.findOne({
+export async function reduceAttribute(idUser,attribute,count){
+   const res = await Player.findOne({
     where:{
         id:idUser
     }
    })
    
-   //копируем объект, меняем значение свойства скопированного объекта и присваиваем к оригиналу
-   try{
-    const copyRes = {...res.gameData}
-
-    for(let key in copyRes){
-        if(key===attribute)
-            copyRes[key]-=count
-    }
-
-    res.gameData = {...copyRes}
+    res.set(attribute,res.get(attribute)-count)
     await res.save()
-   }
-   catch(e)
-   {
-    console.log(e)
-   }
+   
 }
-async function boostAttribute(idUser,attribute,count){
-    const res = await User.findOne({
+export async function boostAttribute(idUser,attribute,count){
+    const res = await Player.findOne({
         where:{
             id:idUser
         }
-       })
-       
-    //копируем объект, меняем значения скопированного объекта и присваиваем к оригиналу
-    try{
-    const copyRes = {...res.gameData}
-    for(let key in copyRes){
-        if(key===attribute)
-            copyRes[key]+=count
-    }
-    res.gameData = {...copyRes}
+    })    
+    res.set(attribute,res.get(attribute)+count)
+    
     await res.save()
+}
+//
+export async function getAllWeapon(){
+    const res = await Weapon.findAll()
+    const returnAr = res.map((key,value)=>{
 
-    }
-    catch(e)
-    {
-    console.log(e)
-    }
+    })
 }
 //функция для теста, создания игрока
-async function cre(){
-    const w = await User.create({id:5, gameData:{
+async function createPlayer(){
+    const w = await Player.create({
+        id:5,
         strength:4,
         endurance:3,
         charisma:5,
@@ -59,17 +41,27 @@ async function cre(){
         luck:1,
         health:100,
         action_points:10,
-        weight_things:250,
-        things:{
-            weapon:[{
-                name:"Убиватель",
-                damage:4,
-                weight_thing:20,
-                isCurrent:true
-            }]
-        }
-    }})
+        weight_things:250
+    })
+}
+async function createWeapon(){
+    const w = await Weapon.create({
+        id:1,
+        name:'10-мм пистолет',
+        damage:18,
+        price:50,
+        weight:10,
+        mustStrength:0,
+        mustIntelligence:0,
+        mustAgility:2,
+        mustLevel:1,
+        ammo:'10-mm'
+    })
 }
 
+
 //reduceAttribute(5,"charisma",1)
-boostAttribute(5,"charisma",3)
+//createPlayer()
+//boostAttribute(5,"charisma",3)
+//createWeapon()
+console.log(await getAllWeapon())
