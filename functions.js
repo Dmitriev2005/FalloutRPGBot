@@ -1,7 +1,8 @@
 import { json } from 'express'
 import {Player,Weapon,Wear} from './model.js'
+
 // убавить аттрибут
-export async function reduceAttribute(idUser,attribute,count){
+async function reduceAttribute(idUser,attribute,count){
    const res = await Player.findOne({
     where:{
         id:idUser
@@ -13,7 +14,7 @@ export async function reduceAttribute(idUser,attribute,count){
    
 }
 // увеличить аттрибут
-export async function boostAttribute(idUser,attribute,count){
+async function boostAttribute(idUser,attribute,count){
     const res = await Player.findOne({
         where:{
             id:idUser
@@ -23,17 +24,41 @@ export async function boostAttribute(idUser,attribute,count){
     
     await res.save()
 }
-// запрос на массив всего weapon
+//Добавить вещи игроку
+async function addPlayerWeapon(idUser,idWeapon){
+    const resWeap = await Weapon.findOne({
+        where:{
+            id:idWeapon
+        }
+    })
+    const resPlayer = await Player.findOne({
+        where:{
+            id:idUser
+        }
+    })
+
+    resPlayer.weapon = resWeap.dataValues
+    resPlayer.save()
+}
+// Получения массивов dataValue из wear и weapon
 async function getAllWeapon(){
     const res = await Weapon.findAll()
     return res
 }
-export const worldWeaponArray = await getAllWeapon()
-
 async function getAllWear(){
-    const res = await Weapon
+    const res = await Wear.findAll()
+    return res
 }
-console.log(worldWeaponArray)
+const worldWeaponArrayBuffer = await getAllWeapon()
+const worldWearArrayBuffer = await getAllWear()
+const worldWeaponArray = []
+const worldWearArray = []
+worldWeaponArrayBuffer.forEach(item=>{
+    worldWeaponArray.push(item.dataValues)
+})
+worldWearArrayBuffer.forEach(item=>{
+    worldWearArray.push(item.dataValues)
+})
 
 //функция для теста, создания игрока
 async function createPlayer(){
@@ -71,3 +96,4 @@ async function createWeapon(){
 //boostAttribute(5,"charisma",3)
 //createWeapon()
 //console.log(await getAllWeapon())
+export {reduceAttribute,boostAttribute,worldWeaponArray,worldWearArray}

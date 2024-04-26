@@ -14,10 +14,13 @@ export const Player = sequelize.define('player_data',{
         type:DataTypes.INTEGER,
         field:'player_level',
         primaryKey:true
-    
     },
     strength:{
         field:'strength',
+        type:DataTypes.INTEGER
+    },
+    perception:{
+        field:"perception",
         type:DataTypes.INTEGER
     },
     endurance:{
@@ -58,6 +61,10 @@ export const Player = sequelize.define('player_data',{
     },
     wear:{
         field:'wear',
+        type:DataTypes.JSON
+    },
+    player_help:{
+        field:"player_help",
         type:DataTypes.JSON
     }
 },{freezeTableName:true, timestamps:false})
@@ -152,7 +159,7 @@ export const Wear = sequelize.define('world_wear',{
     }
 },{freezeTableName:true, timestamps:false})
 
-export const Help = sequelize.define('help',{
+export const Help = sequelize.define('world_help',{
     id:{
         type:DataTypes.INTEGER,
         field:'id',
