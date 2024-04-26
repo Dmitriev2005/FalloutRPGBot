@@ -1,6 +1,6 @@
 import { json } from 'express'
 import {Player,Weapon,Wear} from './model.js'
-// функции обращении к бд
+// убавить аттрибут
 export async function reduceAttribute(idUser,attribute,count){
    const res = await Player.findOne({
     where:{
@@ -12,6 +12,7 @@ export async function reduceAttribute(idUser,attribute,count){
     await res.save()
    
 }
+// увеличить аттрибут
 export async function boostAttribute(idUser,attribute,count){
     const res = await Player.findOne({
         where:{
@@ -22,13 +23,18 @@ export async function boostAttribute(idUser,attribute,count){
     
     await res.save()
 }
-//
-export async function getAllWeapon(){
+// запрос на массив всего weapon
+async function getAllWeapon(){
     const res = await Weapon.findAll()
-    const returnAr = res.map((key,value)=>{
-
-    })
+    return res
 }
+export const worldWeaponArray = await getAllWeapon()
+
+async function getAllWear(){
+    const res = await Weapon
+}
+console.log(worldWeaponArray)
+
 //функция для теста, создания игрока
 async function createPlayer(){
     const w = await Player.create({
@@ -64,4 +70,4 @@ async function createWeapon(){
 //createPlayer()
 //boostAttribute(5,"charisma",3)
 //createWeapon()
-console.log(await getAllWeapon())
+//console.log(await getAllWeapon())

@@ -104,7 +104,11 @@ export const Weapon = sequelize.define('world_weapon',{
     ammo:{
         field:'ammo',
         type:DataTypes.ENUM("10-mm","45-mm", ".44", "12-round","5.56","plasma cartridges")
-    }
+    },
+    rarity:{
+        field:'rarity',
+        type:DataTypes.ENUM("обычное","редкое","легендарное")
+    },
 },{freezeTableName:true, timestamps:false})
 
 export const Wear = sequelize.define('world_wear',{
@@ -113,6 +117,10 @@ export const Wear = sequelize.define('world_wear',{
         field:'id',
         primaryKey:true
     
+    },
+    level:{
+        field:'player_level',
+        type:DataTypes.INTEGER
     },
     name:{
         field:'wear_name',
@@ -133,6 +141,14 @@ export const Wear = sequelize.define('world_wear',{
     mustStrength:{
         field:'must_strength',
         type:DataTypes.INTEGER
+    },
+    rarity:{
+        field:'rarity',
+        type:DataTypes.ENUM("обычное","редкое","легендарное")
+    },
+    wearType:{
+        field:'wear_type',
+        type:DataTypes.ENUM("голова","тело")
     }
 },{freezeTableName:true, timestamps:false})
 
