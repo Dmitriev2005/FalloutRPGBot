@@ -10,6 +10,6 @@ bot.start((ctx)=>{
     ctx.reply("У вас не распределены очки S.P.E.C.I.A.L!")
 })
 bot.launch()
-
+//wewewe
 process.once('SIGINT', () => bot.stop('SIGINT'));
 process.once('SIGTERM', () => bot.stop('SIGTERM'));
